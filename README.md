@@ -6,7 +6,7 @@ MQTT is a publish-subscribe messaging protocol commonly used to connect Internet
 Introduction to Diffusion Real-Time Event Stream through a simple application using Diffusion and MQTT.js.  In this tutorial we will create an MQTT client to publish Star Wars dialogs in real-time and consume them through MQTT subscriber as well as Diffusion subscriber.  The goal is to show how easy it is to consume real-time data from MQTT into Diffusion with no-code required as well as how much efficiency you can add to your solution by using Diffusion. Reduce latency and bandwidth and increase throughput with our Delta Data Technology.
 
 
-![](https://raw.githubusercontent.com/diffusion-playground/kafka-integration-no-code/master/kafka-app-L1/images/kafkaL2.png)
+![](https://raw.githubusercontent.com/diffusion-playground/starwars-mqtt/master/images/mqtt_uc_diagram.png)
 
 # The Code Example
 See how quickly Diffusion consumes MQTT event data and displays its values compare with a pure MQTT solution. Learn how much data you can save when using our Delta Data Technology and how fast your consumers will get that data.
