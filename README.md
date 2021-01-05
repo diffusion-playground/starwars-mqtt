@@ -11,7 +11,7 @@ Introduction to Diffusion Real-Time Event Stream through a simple application us
 # The Code Example
 See how quickly Diffusion consumes MQTT event data and displays its values compare with a pure MQTT solution. Learn how much data you can save when using our Delta Data Technology and how fast your consumers will get that data.
 
-![](https://raw.githubusercontent.com/diffusion-playground/kafka-integration-no-code/master/kafka-app-L1/images/kafkaL2.png)
+![](https://raw.githubusercontent.com/diffusion-playground/starwars-mqtt/master/images/mqtt_mockup.png)
 
 We are currently working on javascript implementation of the described use case, using MQTT.js  and Diffusion.
 
