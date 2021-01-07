@@ -12,10 +12,11 @@ class App {
         const isDifussion = this.getQueryStringParams().has('difussion') || !this.getQueryStringParams().has('mosquitto');
         if (isDifussion) {            
             console.log('Starting Difussion Client...');
-            return new Difussion('Starwars', this.onConnected, this.onMessageReceived);
+            return new Difussion('StarWars', this.onConnected, this.onMessageReceived);
         }
         console.log('Starting MQTT Client...');
-        return new Mosquitto('Starwars', this.onConnected);
+        const useDiffusionServer = this.getQueryStringParams().has('useDiffusionServer');
+        return new Mosquitto('StarWars', useDiffusionServer, this.onConnected);
     }
 
     getQueryStringParams = () => {

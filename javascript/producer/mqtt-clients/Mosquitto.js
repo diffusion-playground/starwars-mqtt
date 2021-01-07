@@ -7,13 +7,12 @@ export default class Mosquitto {
         this.onConnectedCallback = onConnectedCallback;
     }
 
-    connect = () => {
-        //this.client = mqtt.connect('mqtt://test.mosquitto.org');
-        this.client = mqtt.connect('tcp://localhost:8086', {
-            protocolVersion: 5,
-            username: 'admin',
-            password: 'password'
-        })
+    connect = (serverUrl, params = null) => {        
+        if (params) {
+            this.client = mqtt.connect(serverUrl, params);    
+        } else {
+            this.client = mqtt.connect(serverUrl);
+        }
         this.client.on('error', this.onConnectError);
         this.client.on('connect', this.onConnect);
         this.client.on('message', this.onReceivedDialogue);
@@ -44,11 +43,18 @@ export default class Mosquitto {
 
     // Interface Functions
     sendDialogue(dialogueLine) {
+        dialogueLine.time = new Date(); // Sets the time the message is sent
         console.log(dialogueLine);
-        this.client.publish(this.topic, JSON.stringify(dialogueLine));
+        this.client.publish(this.topic, JSON.stringify(dialogueLine), {
+            properties: {
+                contentType: "JSON"
+            }
+        });
     }
 
     onReceivedDialogue = (topic, message) => {        
-        console.log('INCOMMING MESSAGE: ', JSON.parse(message));
+        let receivedMessage = JSON.parse(message);
+        receivedMessage.recievedTime = new Date();
+        console.log('RECEIVED MESSAGE: ', receivedMessage);
     }
 }

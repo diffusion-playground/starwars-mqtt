@@ -31,6 +31,8 @@ export default class Difussion {
     }
 
     onReceiveMessage = (topic, specification, newValue, oldValue) => {
-        this.onReceiveMessageCallback(newValue.get());
+        let message = newValue.get();
+        message.receiveTime = new Date();
+        this.onReceiveMessageCallback(message);
     }
 }

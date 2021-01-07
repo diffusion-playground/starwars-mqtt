@@ -1,13 +1,26 @@
 export default class Mosquitto {    
-    constructor(topic, onConnectedCallback) {        
+    constructor(topic, useDiffusionSrv, onConnectedCallback) {        
         this.topic = topic;
         this.client = null;
         this.onConnectedCallback = onConnectedCallback;
+        this.useDiffusionSrv = useDiffusionSrv;
     }
 
     connect = () => {        
         let mqtt = require('mqtt');
-        this.client = mqtt.connect('ws://test.mosquitto.org:8081');        
+        if (this.useDiffusionSrv) {
+            console.log('Using MQTT with Diffusion server');
+            this.client = mqtt.connect('ws://127.0.0.1:8086/diffusion', {
+                protocolVersion: 5,
+                username: 'admin',
+                password: 'password'
+            });
+        } else {
+            console.log('Using MQTT with Mosquitto server');
+            this.client = mqtt.connect('ws://test.mosquitto.org:8081');
+        }
+        
+        
         this.client.on('error', this.onConnectError);
         this.client.on('connect', this.onConnect);
         this.client.on('message', this.onReceivedDialogue);
