@@ -1,6 +1,6 @@
 # Diffusion's MQTT Connector 
 
-In this tutorial we are going to go through how to create a **producer** and two **consumers**, using Javascript.
+In this tutorial we are going to go through how to create a **producer** and a **consumer**, using Javascript.
 
 Since it's hard to find anyone who hasn't fallen under the charm of the unique **StarWars** motion pictures, I think it would be a nice treat to go over some of the most iconic episode dialogues (**Episode IV**), and use them to play a bit, and in the meantime, learn how Diffusion integrates MQTT as a Connector, in an efficient and really fast way. It'd be like messages would be *warping* from producer to consumers.
 
@@ -22,9 +22,9 @@ Since it's hard to find anyone who hasn't fallen under the charm of the unique *
 ## A Consumer Web App, which:
 
 1. Will have the abillity to connect either to MQTT server or to Diffusion's through its MQTT Connector.
-2. Consume messages produced by the Producer app
+2. Consume messages produced by the Producer app.
 3. Show them in the console.
-4. Show them in a fun way (Have you ever seen the Startwars initial scroll at the begining of each movie?)
+4. Show them in a fun way. (*Have you ever seen the Startwars initial scroll at the begining of each movie?*)
 
 So let's strech our legs, grab a cup of coffee or you preferred beverage, and let's get started.
 
@@ -33,11 +33,11 @@ So let's strech our legs, grab a cup of coffee or you preferred beverage, and le
 Make sure you follow instructions in our download page, about how to install Diffusion on-premise server. After it's installed we need to enable the protocols we are going to use. We'll use TCP from the Producer, and WebSockets from the Web Application.
 To enable protocols: 
 1. Go to: {diffusion_install_dir}/etc/Connectors.xml.
-2. Look for the protocols tag `<protocols>`. It should be commented out, but default. 
+2. Look for the protocols tag `<protocols>`. It should be commented out, by default. 
 3. Uncomment the tag, and the protocos we want to enable. We'll need to enable 3 out of the 4 protocols, listed in there:
     1. DIFUSSION_WEBSOCKET: This protocol will be used when we connect from the Consumer Web App, using Diffusion.
     2. MQTT_TCP: This protocol will be used when we connect from the Producer App, via MQTT
-    3. MQTT_WEBSOCKET: This protocol will be used when we connect from the Consumer Web App, either by MQTT or Diffusion.
+    3. MQTT_WEBSOCKET: This protocol will be used when we connect from the Consumer Web App, either by MQTT or Diffusion MQTT Connector.
 Example:
 ```xml
     <!--  Uncomment to enable or disable specific protocols. -->
@@ -49,7 +49,7 @@ Example:
         </protocols>
 
 ```
-4. It's important to notice that when connecting to Diffusion's MQTT Connector, the url must include **diffusion** as path. We'll see it better when we discuss the Consumer in detail.
+4. It's important to notice that when connecting to Diffusion's MQTT Connector, via WebSockets, the url must include **diffusion** as path. We'll see it better when we discuss the Consumer in detail.
 
 # The Producer
 ## Connecting to an MQTT Server
