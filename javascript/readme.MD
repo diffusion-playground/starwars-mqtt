@@ -33,13 +33,13 @@ So let's strech our legs, grab a cup of coffee or you preferred beverage, and le
 Make sure you follow instructions in our download page, about how to install Diffusion on-premise server. After it's installed we need to enable the protocols we are going to use. We'll use TCP from the Producer, and WebSockets from the Web Application.
 To enable protocols: 
 1. Go to: {diffusion_install_dir}/etc/Connectors.xml.
-2. Look for the protocols tag (<protocols>). It should be commented out, but default. 
+2. Look for the protocols tag `<protocols>`. It should be commented out, but default. 
 3. Uncomment the tag, and the protocos we want to enable. We'll need to enable 3 out of the 4 protocols, listed in there:
-3.1 DIFUSSION_WEBSOCKET: This protocol will be used when we connect from the Consumer Web App, using Diffusion.
-3.2 MQTT_TCP: This protocol will be used when we connect from the Producer App, via MQTT
-3.3 MQTT_WEBSOCKET: This protocol will be used when we connect from the Consumer Web App, either by MQTT or Diffusion.
+..1 DIFUSSION_WEBSOCKET: This protocol will be used when we connect from the Consumer Web App, using Diffusion.
+..2 MQTT_TCP: This protocol will be used when we connect from the Producer App, via MQTT
+..3 MQTT_WEBSOCKET: This protocol will be used when we connect from the Consumer Web App, either by MQTT or Diffusion.
 Example:
-<code:xml>
+```xml
     <!--  Uncomment to enable or disable specific protocols. -->
         <protocols>
             <protocol>DIFFUSION_WEBSOCKET</protocol>
@@ -48,7 +48,7 @@ Example:
             <protocol>MQTT_WEBSOCKET</protocol>
         </protocols>
 
-</code:xml>
+```
 4. It's important to notice that when connecting to Diffusion's MQTT Connector, the url must include **diffusion** as path. We'll see it better when we discuss the Consumer in detail.
 
 # The Producer
