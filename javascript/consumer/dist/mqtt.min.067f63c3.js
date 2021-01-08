@@ -7946,7 +7946,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     }, {}]
   }, {}, [9])(9);
 });
-},{}],"../../../../../../../../../../home/smercado/.npm/_npx/709616/lib/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{}],"../../../../../../../../../../home/smercado/.npm/_npx/742508/lib/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -7974,7 +7974,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "37675" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "46415" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -8150,5 +8150,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../../../../../../../../home/smercado/.npm/_npx/709616/lib/node_modules/parcel/src/builtins/hmr-runtime.js","js/mqtt.min.js"], null)
+},{}]},{},["../../../../../../../../../../home/smercado/.npm/_npx/742508/lib/node_modules/parcel/src/builtins/hmr-runtime.js","js/mqtt.min.js"], null)
 //# sourceMappingURL=/mqtt.min.067f63c3.js.map
