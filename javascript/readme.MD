@@ -22,9 +22,44 @@ Since it's hard to find anyone who hasn't fallen under the charm of the unique *
 ## A Consumer Web App, which:
 
 1. Will have the abillity to connect either to MQTT server or to Diffusion's through its MQTT Connector.
-2. Consumer the messages produced by the Producer app
+2. Consume messages produced by the Producer app
 3. Show them in the console.
 4. Show them in a fun way (Have you ever seen the Startwars initial scroll at the begining of each movie?)
 
 So let's strech our legs, grab a cup of coffee or you preferred beverage, and let's get started.
+
+# Diffusion on-premise
+
+Make sure you follow instructions in our download page, about how to install Diffusion on-premise server. After it's installed we need to enable the protocols we are going to use. We'll use TCP from the Producer, and WebSockets from the Web Application.
+To enable protocols: 
+1. Go to: {diffusion_install_dir}/etc/Connectors.xml.
+2. Look for the protocols tag (<protocols>). It should be commented out, but default. 
+3. Uncomment the tag, and the protocos we want to enable. We'll need to enable 3 out of the 4 protocols, listed in there:
+3.1 DIFUSSION_WEBSOCKET: This protocol will be used when we connect from the Consumer Web App, using Diffusion.
+3.2 MQTT_TCP: This protocol will be used when we connect from the Producer App, via MQTT
+3.3 MQTT_WEBSOCKET: This protocol will be used when we connect from the Consumer Web App, either by MQTT or Diffusion.
+Example:
+<code:xml>
+    <!--  Uncomment to enable or disable specific protocols. -->
+        <protocols>
+            <protocol>DIFFUSION_WEBSOCKET</protocol>
+            <!-- <protocol>DIFFUSION_HTTP_LONG_POLL</protocol> -->
+            <protocol>MQTT_TCP</protocol>
+            <protocol>MQTT_WEBSOCKET</protocol>
+        </protocols>
+
+</code:xml>
+4. It's important to notice that when connecting to Diffusion's MQTT Connector, the url must include **diffusion** as path. We'll see it better when we discuss the Consumer in detail.
+
+# The Producer
+## Connecting to an MQTT Server
+## Connecting to Diffusion, using the MQTT Connector
+
+# The Consumer
+## Connecting to an MQTT Server
+## Connecting to Diffusion, using the MQTT Connector
+# Diffusion Console
+
+# Conclusion
+
 
