@@ -1,8 +1,8 @@
 # Diffusion's MQTT Connector 
 
-In this tutorial we are going to go through how to create a **producer** and a **consumer**, using Javascript.
+In this tutorial we are going to go through how to create a **Producer** and a **Consumer**, using Javascript.
 
-Since it's hard to find anyone who hasn't fallen under the charm of the unique **StarWars** motion pictures, I think it would be a nice treat to go over some of the most iconic episode dialogues (**Episode IV**), and use them to play a bit, and in the meantime, learn how Diffusion integrates MQTT as a Connector, in an efficient and really fast way. It'd be like messages would be *warping* from producer to consumers.
+Since it's hard to find anyone who hasn't fallen under the charm of the unique **StarWars** motion pictures, I think it would be a nice treat to go over some of the most iconic episode dialogues (**Episode IV**), and use them to play a bit, and in the meantime, learn how Diffusion integrates MQTT as a Connector, in an efficient and really fast way. It'd be like messages would be *warping* from Producer to Consumers.
 
 # Requirements
 
@@ -14,7 +14,7 @@ Since it's hard to find anyone who hasn't fallen under the charm of the unique *
 
 # What we'll do
 
-## We'll be building a producer, which:
+## We'll be building a Producer, which:
 
 1. Will have the abillity to connect either to an MQTT Server (we'll be using [Mosquitto](https://test.mosquitto.org/)), or to Diffusion through its MQTT Connector.
 2. Will read the dialogues file, and send them to the server, every one second.
@@ -34,7 +34,7 @@ In the above diagram, the different data flows are depicted:
 2. It's an MQTT data flow, through Diffusion's MQTT Connector
 3. It's a pure Diffusion flow.
 
-The consumer, can connect to the stream, via any of the different protocols.
+The Consumer, can connect to the stream, via any of the different protocols.
 
 So let's strech our legs, grab a cup of coffee or you preferred beverage, and let's get started.
 
@@ -63,15 +63,15 @@ Example:
 
 # The Producer
 
-The producer is a nodejs application that we'll run using the command line.
+The Producer is a nodejs application that we'll run using the command line.
 ## Connecting to the server:
 
 Since it is a nodejs application we are going to connect using TCP.
-In the main script [dialogue-generator.js](https://github.com/diffusion-playground/starwars-mqtt/blob/master/javascript/producer/dialogue-generator.js), we instantiate the client
+In the main script [dialogue-generator.js](https://github.com/diffusion-playground/starwars-mqtt/blob/master/javascript/Producer/dialogue-generator.js), we instantiate the client
 
 ```javascript
     constructor() {
-        console.log('Starting dialogue producer...');                     
+        console.log('Starting dialogue Producer...');                     
         // Let's create a client to the server. This could be an MQTT server or Diffusion
         this.client = new Mosquitto('StarWars', this.onServerConnected);
         this.connectToServer();
@@ -94,14 +94,15 @@ In the main script [dialogue-generator.js](https://github.com/diffusion-playgrou
     }
 ```    
 
-The connect function lies in the [Mosquitto.js](https://github.com/diffusion-playground/starwars-mqtt/blob/master/javascript/producer/mqtt-clients/Mosquitto.js) client
+The connect function lies in the [Mosquitto.js](https://github.com/diffusion-playground/starwars-mqtt/blob/master/javascript/Producer/mqtt-clients/Mosquitto.js) client
 
 ```javascript
     connect = (serverUrl, params = null) => {        
-        // If we get Params, it means we are trying to connect to Diffusion
+        // If we get Params, it means we are trying to connect to Diffusion,
+        // through its MQTT connector
         if (params) {
             this.client = mqtt.connect(serverUrl, params);    
-        // Otherwise, let's try to connect to Mosquitto
+        // Otherwise, let's try to connect to Mosquitto MQTT broker
         } else {
             this.client = mqtt.connect(serverUrl);
         }
@@ -113,8 +114,114 @@ The connect function lies in the [Mosquitto.js](https://github.com/diffusion-pla
 ```
 
 # The Consumer
-## Connecting to an MQTT Server
-## Connecting to Diffusion, using the MQTT Connector
+
+The Consumer is a Web Application. It uses [Parcel](https://parceljs.org/) as a bundler.
+
+## Connecting to the server:
+
+The , [main](https://github.com/diffusion-playground/starwars-mqtt/blob/master/javascript/consumer/index.js) script of the Consumer sets up the connection parameters:
+
+```javascript
+    constructor() {
+        // Get a client
+        this.client = this.getClient();
+        // Connect to it
+        this.client.connect();
+    }
+
+    getClient = () => {
+        // From the queryString we get the params to determine which server to connect
+        const isDifussion = this.getQueryStringParams().has('difussion') || !this.getQueryStringParams().has('mosquitto');
+        if (isDifussion) {            
+            // If we asked to connect directly using Diffusion
+            // ie: http://localhost:1234?diffusion
+            console.log('Starting Difussion Client...');
+            return new Difussion('StarWars', this.onConnected, this.onMessageReceived);
+        }
+        // We reached here if we didn't ask to connect using Diffusion and want to connect using MQTT
+        console.log('Starting MQTT Client...');
+        // If we want to use Diffusion's MQTT Connector, we set the querySting param to do so
+        // ie: http://localhost:1234?mosquitto&useDiffusionServer
+        const useDiffusionServer = this.getQueryStringParams().has('useDiffusionServer');
+        return new Mosquitto('StarWars', useDiffusionServer, this.onConnected);
+    }
+```
+The connect function is in either the Diffusion or Mosquitto clients, depending on what queryString parameter we used.
+If pure Diffusion connection was set, the [Diffusion's Client](https://github.com/diffusion-playground/starwars-mqtt/blob/master/javascript/consumer/js/mqtt-clients/Difussion.js) *connect* function will run:
+
+```javascript
+    connect = () => {
+        diffusion.connect({
+            // This is the host and port to our on-premise Diffusion server
+            host: "127.0.0.1",
+            port: 8086,
+            // These are the credentials to our on-premise Diffusion server
+            principal : "admin",
+            credentials: "password"
+        }).then( (session) => {
+            // We setup the stream we want to use
+            session.topics.add(this.topic, diffusion.topics.TopicType.JSON);
+            // Here's where we subscribe to the stream
+            this.subscribe(session)
+            //--
+            this.onConnectedCallback()
+        });
+    }
+
+    subscribe = (session) => { 
+        // We add the stream
+        session.addStream(
+                this.topic, // We set the same topic of the stream we setup before
+                diffusion.datatypes.json() // We specify we want to listen to JSON data type
+            )
+            // We setup the callback function we want to execute to handle data when it arrives
+            .on(
+                'value',
+                this.onReceiveMessage    
+            );
+
+        // Finally, we select the topic we want to listen to
+        session.select(this.topic);
+    }
+```
+If we want to consume MQTT streams, we are using the [MQTT Client's](https://github.com/diffusion-playground/starwars-mqtt/blob/master/javascript/consumer/js/mqtt-clients/Mosquitto.js) *connect* function:
+
+```javascript
+    connect = () => {        
+        // Here we require MQTT.js library
+        let mqtt = require('mqtt');
+        if (this.useDiffusionSrv) {
+            console.log('Using MQTT with Diffusion server');
+            // If we want to connect to Diffusion's MQTT Connector via WebSockets, we must use the **diffusion** path
+            this.client = mqtt.connect('ws://127.0.0.1:8086/diffusion', { // Note diffusion path used here
+                protocolVersion: 5, // MQTT's protocol supported by the server is 5
+                // And the credentials
+                username: 'admin',
+                password: 'password'
+            });
+        } else {
+            // If we want to skip Diffusion server and connect to an MQTT broker
+            console.log('Using MQTT with Mosquitto server');
+            // This is the url that Mosquitto gives the community for WebSocket connections
+            this.client = mqtt.connect('ws://test.mosquitto.org:8081');
+        }
+        
+        // And we create the listeners to handle events.
+        this.client.on('error', this.onConnectError);
+        this.client.on('connect', this.onConnect);        
+        this.client.on('message', this.onReceivedDialogue);
+    }    
+```
+Back in index.js, the client invokes a callback with the message:
+
+```javascript
+    // We are just dropping the message in the console for now.
+    // Magic soon, will come
+    onMessageReceived = (message) => { 
+        console.log(message);
+    }
+```
+
 # Diffusion Console
 
 # Conclusion
