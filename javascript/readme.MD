@@ -28,6 +28,14 @@ Since it's hard to find anyone who hasn't fallen under the charm of the unique *
 
 ![](./images/starwars_diagram.png)
 
+In the above diagram, the different data flows are depicted:
+
+1. It's a pure MQTT data flow, through an MQTT broker.
+2. It's an MQTT data flow, through Diffusion's MQTT Connector
+3. It's a pure Diffusion flow.
+
+The consumer, can connect to the stream, via any of the different protocols.
+
 So let's strech our legs, grab a cup of coffee or you preferred beverage, and let's get started.
 
 # Diffusion on-premise
