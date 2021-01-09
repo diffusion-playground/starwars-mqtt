@@ -254,14 +254,14 @@ Back in index.js, the client invokes a callback with the message:
 4. Run `npx parcel index.html`
 5. ![](./images/parcel-run.png) 
 6. In your browser, go to: http://localhost:1234, and open the console in the Developer Tools (usually F12)
-    1. If you want the consumer to consume pure diffusion: http://localhost:1234?diffussion
-    2. If you want the consumer to consumer MQTT through diffusion's connector: http://localhost:1234?mosquitto&useDiffusionServer
-    3. If you want the consumer to consumer pure MQTT (requires the producer to connect to MQTT only): http://localhost:1234?mosquitto
+    1. If you want the Consumer to consume pure Diffusion: http://localhost:1234?diffussion
+    2. If you want the Consumer to consume MQTT through Diffusion's connector: http://localhost:1234?mosquitto&useDiffusionServer
+    3. If you want the Consumer to consume pure MQTT (requires the Producer to connect to MQTT only): http://localhost:1234?mosquitto
 
 Now that we have our Consumer listening, let's pour some magic and send the Episode IV dialogues, using our Producer:
 
 1. `cd starwars-mqtt\javascript\producer`
-2. If you want the Producer to connect to pure MQTT server: `node dialogue-generator.js mqtt`. Note that when the producer is launched with this parameter it will not use Diffusion at all, but the mosquitto broker. So make sure, your Consumer is also connected to the mosquitto broker (step 6.3, in the consumer steps.)
+2. If you want the Producer to connect to pure MQTT server: `node dialogue-generator.js mqtt`. Note that when the Producer is launched with this parameter it will not use Diffusion at all, but the mosquitto broker. So make sure, your Consumer is also connected to the mosquitto broker (step 6.iii, in the consumer steps.)
 3. If you want the producer to connect to Diffusion's MQTT Connector: `node dialogue-generator.js diffusion`
 
 That's it! Log into your Diffusion's Console, if you are connected to it, to see all the magic happening. Also take a look at the Consumer's console. 
