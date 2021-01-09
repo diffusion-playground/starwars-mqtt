@@ -17412,7 +17412,7 @@ var App = function App() {
 
     var useDiffusionServer = _this.getQueryStringParams().has('useDiffusionServer');
 
-    return new _Mosquitto.default('StarWars', useDiffusionServer, _this.onConnected);
+    return new _Mosquitto.default('StarWars', useDiffusionServer, _this.onConnected, _this.onMessageReceived);
   });
 
   _defineProperty(this, "getQueryStringParams", function () {
@@ -17433,7 +17433,7 @@ var App = function App() {
 };
 
 new App();
-},{"./js/mqtt-clients/Mosquitto":"js/mqtt-clients/Mosquitto.js","./js/mqtt-clients/Difussion":"js/mqtt-clients/Difussion.js","./js/starwars":"js/starwars.js"}],"../../../../../../../../../../home/smercado/.npm/_npx/742508/lib/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./js/mqtt-clients/Mosquitto":"js/mqtt-clients/Mosquitto.js","./js/mqtt-clients/Difussion":"js/mqtt-clients/Difussion.js","./js/starwars":"js/starwars.js"}],"../../../../../../../../../../home/smercado/.npm/_npx/158416/lib/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -17461,7 +17461,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "46415" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "43919" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -17637,5 +17637,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../../../../../../../../home/smercado/.npm/_npx/742508/lib/node_modules/parcel/src/builtins/hmr-runtime.js","index.js"], null)
+},{}]},{},["../../../../../../../../../../home/smercado/.npm/_npx/158416/lib/node_modules/parcel/src/builtins/hmr-runtime.js","index.js"], null)
 //# sourceMappingURL=/consumer.e31bb0bc.js.map
