@@ -26,7 +26,7 @@ Since it's hard to find anyone who hasn't fallen under the charm of the unique *
 3. Show them in the console.
 4. Show them in a fun way. (*Have you ever seen the Startwars initial scroll at the begining of each movie?*)
 
-![](https://raw.githubusercontent.com/diffusion-playground/starwars-mqtt/master/images/starwars_diagram.png)
+![](./images/starwars_diagram.png)
 
 So let's strech our legs, grab a cup of coffee or you preferred beverage, and let's get started.
 
