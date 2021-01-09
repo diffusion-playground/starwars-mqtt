@@ -16,7 +16,7 @@ class App {
         }
         console.log('Starting MQTT Client...');
         const useDiffusionServer = this.getQueryStringParams().has('useDiffusionServer');
-        return new Mosquitto('StarWars', useDiffusionServer, this.onConnected);
+        return new Mosquitto('StarWars', useDiffusionServer, this.onConnected, this.onMessageReceived);
     }
 
     getQueryStringParams = () => {

@@ -119,7 +119,7 @@ The Consumer is a Web Application. It uses [Parcel](https://parceljs.org/) as a 
 
 ## Connecting to the server:
 
-The , [main](https://github.com/diffusion-playground/starwars-mqtt/blob/master/javascript/consumer/index.js) script of the Consumer sets up the connection parameters:
+The [main](https://github.com/diffusion-playground/starwars-mqtt/blob/master/javascript/consumer/index.js) script of the Consumer sets up the connection parameters:
 
 ```javascript
     constructor() {
@@ -133,9 +133,11 @@ The , [main](https://github.com/diffusion-playground/starwars-mqtt/blob/master/j
         // From the queryString we get the params to determine which server to connect
         const isDifussion = this.getQueryStringParams().has('difussion') || !this.getQueryStringParams().has('mosquitto');
         if (isDifussion) {            
-            // If we asked to connect directly using Diffusion
-            // ie: http://localhost:1234?diffusion
             console.log('Starting Difussion Client...');
+            // If we asked to connect directly using Diffusion
+            // ie: http://localhost:1234?diffusion            
+            // We pass the callback functions to handle the events from the main script
+            // We only care about onConnected and onMessageReceived
             return new Difussion('StarWars', this.onConnected, this.onMessageReceived);
         }
         // We reached here if we didn't ask to connect using Diffusion and want to connect using MQTT
@@ -143,10 +145,15 @@ The , [main](https://github.com/diffusion-playground/starwars-mqtt/blob/master/j
         // If we want to use Diffusion's MQTT Connector, we set the querySting param to do so
         // ie: http://localhost:1234?mosquitto&useDiffusionServer
         const useDiffusionServer = this.getQueryStringParams().has('useDiffusionServer');
-        return new Mosquitto('StarWars', useDiffusionServer, this.onConnected);
+        // We pass the callback functions to handle the events from the main script
+        // We only care about onConnected and onMessageReceived
+        return new Mosquitto('StarWars', useDiffusionServer, this.onConnected, this.onMessageReceived);
     }
 ```
 The connect function is in either the Diffusion or Mosquitto clients, depending on what queryString parameter we used.
+
+### Diffusion Client
+
 If pure Diffusion connection was set, the [Diffusion's Client](https://github.com/diffusion-playground/starwars-mqtt/blob/master/javascript/consumer/js/mqtt-clients/Difussion.js) *connect* function will run:
 
 ```javascript
@@ -184,6 +191,9 @@ If pure Diffusion connection was set, the [Diffusion's Client](https://github.co
         session.select(this.topic);
     }
 ```
+
+### MQTT Client
+
 If we want to consume MQTT streams, we are using the [MQTT Client's](https://github.com/diffusion-playground/starwars-mqtt/blob/master/javascript/consumer/js/mqtt-clients/Mosquitto.js) *connect* function:
 
 ```javascript
@@ -210,7 +220,19 @@ If we want to consume MQTT streams, we are using the [MQTT Client's](https://git
         this.client.on('error', this.onConnectError);
         this.client.on('connect', this.onConnect);        
         this.client.on('message', this.onReceivedDialogue);
-    }    
+    }
+
+    // After connected, we subscribe to the stream
+    subscribe = () => { 
+        console.log('this.topic: ', this.topic);
+        this.client.subscribe(this.topic, (err) => {            
+            if (!err) {
+                this.onConnectedCallback(); // We call the onConnected callback of the client                
+            } else {
+                console.log(err);
+            }
+        })
+    }
 ```
 Back in index.js, the client invokes a callback with the message:
 
