@@ -62,8 +62,55 @@ Example:
 4. It's important to notice that when connecting to Diffusion's MQTT Connector, via WebSockets, the url must include **diffusion** as path. We'll see it better when we discuss the Consumer in detail.
 
 # The Producer
-## Connecting to an MQTT Server
-## Connecting to Diffusion, using the MQTT Connector
+
+The producer is a nodejs application that we'll run using the command line.
+## Connecting to the server:
+
+Since it is a nodejs application we are going to connect using TCP.
+In the main script [dialogue-generator.js](https://github.com/diffusion-playground/starwars-mqtt/blob/master/javascript/producer/dialogue-generator.js), we instantiate the client
+
+```javascript
+    constructor() {
+        console.log('Starting dialogue producer...');                     
+        // Let's create a client to the server. This could be an MQTT server or Diffusion
+        this.client = new Mosquitto('StarWars', this.onServerConnected);
+        this.connectToServer();
+    }        
+    connectToServer = () => {
+        // We get Server type from the command line, using this.getServerType()
+        if (this.getServerType() === 'difussion') {
+            // This url, points to our on-premise Diffusion broker
+            this.client.connect('tcp://localhost:8086', {
+                protocolVersion: 5, // Diffusion supports version 5 of MQTT
+                // These are the on-premise server credentials.
+                username: 'admin', 
+                password: 'password'
+            });
+            return;
+        }
+        // If we didn't request to connect to Diffusion server, 
+        // the client will try to connect to Mosquitto's server.
+        this.client.connect('tcp://test.mosquitto.org');
+    }
+```    
+
+The connect function lies in the [Mosquitto.js](https://github.com/diffusion-playground/starwars-mqtt/blob/master/javascript/producer/mqtt-clients/Mosquitto.js) client
+
+```javascript
+    connect = (serverUrl, params = null) => {        
+        // If we get Params, it means we are trying to connect to Diffusion
+        if (params) {
+            this.client = mqtt.connect(serverUrl, params);    
+        // Otherwise, let's try to connect to Mosquitto
+        } else {
+            this.client = mqtt.connect(serverUrl);
+        }
+        // After connecting, we set callbacks to handle different events
+        this.client.on('error', this.onConnectError);
+        this.client.on('connect', this.onConnect);        
+        this.client.on('message', this.onReceivedDialogue);
+    }
+```
 
 # The Consumer
 ## Connecting to an MQTT Server
