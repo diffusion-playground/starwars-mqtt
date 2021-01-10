@@ -246,6 +246,15 @@ Back in index.js, the client invokes a callback with the message:
 
 # Diffusion Console
 
+After login to the Console. In the Topics section, here's what you'll see:
+![](./images/console_topics_empty.png)
+
+Once the Consumer and Producer were started, Diffusion's Console will show the following:
+![](./images/console_messages.png)
+
+And this is what our Consumer Web App should look like:
+![](./images/consumer_running.png)
+
 # Let's do it!
 
 1. Clone the repo: `git clone https://github.com/diffusion-playground/starwars-mqtt.git`
