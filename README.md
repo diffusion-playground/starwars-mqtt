@@ -9,6 +9,9 @@ Introduction to Diffusion Real-Time Event Stream through a simple application us
 ![](https://raw.githubusercontent.com/diffusion-playground/starwars-mqtt/master/images/mqtt_uc_diagram.png)
 
 # The Code Example
+In this example, you will have the abillity to connect either to MQTT server or Diffusion's through its MQTT Connector.
+Consume messages produced by the Producer app, show them in the console and have fun while learning. (Have you ever seen the Startwars initial scroll at the begining of each movie?)
+
 ![](./javascript/images/starwars_diagram.png)
 
 See how quickly Diffusion consumes MQTT event data and displays its values compare with a pure MQTT solution. Learn how much data you can save when using our Delta Data Technology and how fast your consumers will get that data.
