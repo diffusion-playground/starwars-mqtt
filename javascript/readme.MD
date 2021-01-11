@@ -30,9 +30,9 @@ Since it's hard to find anyone who hasn't fallen under the charm of the unique *
 
 In the above diagram, the different data flows are depicted:
 
-1. It's a pure MQTT data flow, through an MQTT broker.
-2. It's an MQTT data flow, through Diffusion's MQTT Connector
-3. It's a pure Diffusion flow.
+1. It's a pure Diffusion flow, without MQTT.
+2. It's an MQTT data flow, through Diffusion's MQTT Connector.
+3. It's a pure MQTT data flow, through an MQTT broker.
 
 The Consumer, can connect to the stream, via any of the different protocols.
 
