@@ -247,6 +247,19 @@ Back in index.js, the client invokes a callback with the message:
     // Magic soon, will come
     onMessageReceived = (message) => { 
         console.log(message);
+        // And we show the message in the scroll view
+        if (this.scrollEl) {
+            // Create the paragraph to be shown
+            let newLine = document.createElement('p');
+            newLine.innerHTML = `<span class="character">${message.character}: </span>${message.text}`;
+            // Wrap it up in a div, for animation
+            let newParagraph = document.createElement('div');
+            newParagraph.className = 'historia texto_historia animacion_historia';
+            newParagraph.append(newLine);
+            // Add it to the scroll container
+            this.scrollEl.append(newParagraph);
+        }
+
     }
 ```
 
