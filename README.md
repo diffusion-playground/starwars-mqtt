@@ -9,6 +9,8 @@ Introduction to Diffusion Real-Time Event Stream through a simple application us
 ![](https://raw.githubusercontent.com/diffusion-playground/starwars-mqtt/master/images/mqtt_uc_diagram.png)
 
 # The Code Example
+![](./javascript/images/starwars_diagram.png)
+
 See how quickly Diffusion consumes MQTT event data and displays its values compare with a pure MQTT solution. Learn how much data you can save when using our Delta Data Technology and how fast your consumers will get that data.
 
 ![](https://raw.githubusercontent.com/diffusion-playground/starwars-mqtt/master/images/mqtt_mockup.png)
