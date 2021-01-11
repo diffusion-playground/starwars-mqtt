@@ -243,8 +243,7 @@ If we want to consume MQTT streams, we are using the [MQTT Client's](https://git
 Back in index.js, the client invokes a callback with the message:
 
 ```javascript
-    // We are just dropping the message in the console for now.
-    // Magic soon, will come
+    // And finally, the extra fun part
     onMessageReceived = (message) => { 
         console.log(message);
         // And we show the message in the scroll view
