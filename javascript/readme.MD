@@ -30,9 +30,9 @@ Since it's hard to find anyone who hasn't fallen under the charm of the unique *
 
 In the above diagram, the different data flows are depicted:
 
-1. It's a pure MQTT data flow, through an MQTT broker.
-2. It's an MQTT data flow, through Diffusion's MQTT Connector
-3. It's a pure Diffusion flow.
+1. It's a pure Diffusion flow, without MQTT.
+2. It's an MQTT data flow, through Diffusion's MQTT Connector.
+3. It's a pure MQTT data flow, through an MQTT broker.
 
 The Consumer, can connect to the stream, via any of the different protocols.
 
@@ -191,6 +191,12 @@ If pure Diffusion connection was set, the [Diffusion's Client](https://github.co
         session.select(this.topic);
     }
 ```
+### Diffusion SDK Reference
+#### - [diffusion.connect](https://docs.pushtechnology.com/docs/6.5.1/js/globals.html#connect) > [*create your host*](https://management.ad.diffusion.cloud/)
+#### - [session.topics.add](https://docs.pushtechnology.com/docs/6.5.1/js/interfaces/topiccontrol.html#add)
+#### - [session.addStream](https://docs.pushtechnology.com/docs/6.5.1/js/interfaces/session.html#addstream)
+#### - [session.select](https://docs.pushtechnology.com/docs/6.5.1/js/interfaces/session.html#select)
+#### - [session.topicUpdate.set](https://docs.pushtechnology.com/docs/6.5.1/js/interfaces/topicupdate.html#set)
 
 ### MQTT Client
 
