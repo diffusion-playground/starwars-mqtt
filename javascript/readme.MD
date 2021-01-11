@@ -191,6 +191,12 @@ If pure Diffusion connection was set, the [Diffusion's Client](https://github.co
         session.select(this.topic);
     }
 ```
+### Diffusion SDK Reference
+#### [diffusion.connect](https://docs.pushtechnology.com/docs/6.5.1/js/globals.html#connect) > [*create your host*](https://management.ad.diffusion.cloud/)
+#### [session.topics.add](https://docs.pushtechnology.com/docs/6.5.1/js/interfaces/topiccontrol.html#add)
+#### [session.addStream](https://docs.pushtechnology.com/docs/6.5.1/js/interfaces/session.html#addstream)
+#### [session.select](https://docs.pushtechnology.com/docs/6.5.1/js/interfaces/session.html#select)
+#### [session.topicUpdate.set](https://docs.pushtechnology.com/docs/6.5.1/js/interfaces/topicupdate.html#set)
 
 ### MQTT Client
 
