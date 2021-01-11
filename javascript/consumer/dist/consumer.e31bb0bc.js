@@ -17426,14 +17426,25 @@ var App = function App() {
 
   _defineProperty(this, "onMessageReceived", function (message) {
     console.log(message);
+
+    if (_this.scrollEl) {
+      var newLine = document.createElement('p');
+      newLine.innerHTML = "<span class=\"character\">".concat(message.character, ": </span>").concat(message.text);
+      var newParagraph = document.createElement('div');
+      newParagraph.className = 'historia texto_historia animacion_historia';
+      newParagraph.append(newLine);
+
+      _this.scrollEl.append(newParagraph);
+    }
   });
 
   this.client = this.getClient();
   this.client.connect();
+  this.scrollEl = document.querySelector('#scrollText');
 };
 
 new App();
-},{"./js/mqtt-clients/Mosquitto":"js/mqtt-clients/Mosquitto.js","./js/mqtt-clients/Difussion":"js/mqtt-clients/Difussion.js","./js/starwars":"js/starwars.js"}],"../../../../../../../../../../home/smercado/.npm/_npx/226768/lib/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./js/mqtt-clients/Mosquitto":"js/mqtt-clients/Mosquitto.js","./js/mqtt-clients/Difussion":"js/mqtt-clients/Difussion.js","./js/starwars":"js/starwars.js"}],"../../../../../../../../../../home/smercado/.npm/_npx/188544/lib/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -17461,7 +17472,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "35935" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "33185" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -17637,5 +17648,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../../../../../../../../home/smercado/.npm/_npx/226768/lib/node_modules/parcel/src/builtins/hmr-runtime.js","index.js"], null)
+},{}]},{},["../../../../../../../../../../home/smercado/.npm/_npx/188544/lib/node_modules/parcel/src/builtins/hmr-runtime.js","index.js"], null)
 //# sourceMappingURL=/consumer.e31bb0bc.js.map

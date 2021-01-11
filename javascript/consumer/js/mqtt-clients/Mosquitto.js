@@ -47,7 +47,7 @@ export default class Mosquitto {
                 console.log(err);
             }
         })
-    }    
+    }
 
     // Interface Functions
     sendDialogue(dialogueLine) {

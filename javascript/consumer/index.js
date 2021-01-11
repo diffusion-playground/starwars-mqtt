@@ -6,6 +6,7 @@ class App {
     constructor() {
         this.client = this.getClient();
         this.client.connect();
+        this.scrollEl = document.querySelector('#scrollText');
     }
 
     getClient = () => {
@@ -30,6 +31,15 @@ class App {
 
     onMessageReceived = (message) => { 
         console.log(message);
+        if (this.scrollEl) {
+            let newLine = document.createElement('p');
+            newLine.innerHTML = `<span class="character">${message.character}: </span>${message.text}`;
+            let newParagraph = document.createElement('div');
+            newParagraph.className = 'historia texto_historia animacion_historia';
+            newParagraph.append(newLine);
+            this.scrollEl.append(newParagraph);
+        }
+
     }
 }
 

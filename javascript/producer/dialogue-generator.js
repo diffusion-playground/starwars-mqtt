@@ -60,7 +60,7 @@ class Main {
                 clearInterval(this.sendDialogInterval);
                 console.log('Dialog file read. Ending Transmission. May the Force Be With you...');
             }
-         }, 1000); 
+         }, 2000); 
     }
 
     /**
