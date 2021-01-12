@@ -13,8 +13,8 @@ Since it's hard to find anyone who hasn't fallen under the charm of the unique *
     1. "Note: Only use this example Kaggle StartWars datasets under this [license terms](https://opendatacommons.org/licenses/odbl/1-0/)."
 4. To connect to MQTT servers and Diffusion's MQTT Connector, we are using an MQTT client library: [Mqtt.js](https://github.com/mqttjs/MQTT.js)
 
-## Acknowledges
-    1. The starwars stars field and animation was based on this excellent tutorial by [DevCode](https://devcode.la/tutoriales/animacion-de-star-wars-con-css3/)
+## Acknowledgements
+1. The starwars stars field and animation was based on this excellent tutorial by [DevCode](https://devcode.la/tutoriales/animacion-de-star-wars-con-css3/)
 
 # What we'll do
 
