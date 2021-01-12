@@ -2,7 +2,7 @@
 
 In this tutorial we are going to go through how to create a **Producer** and a **Consumer**, using Javascript.
 
-Since it's hard to find anyone who hasn't fallen under the charm of the unique **StarWars** motion pictures, I think it would be a nice treat to go over some of the most iconic episode dialogues (**Episode IV**), and use them to play a bit, and in the meantime, learn how Diffusion integrates MQTT as a Connector, in an efficient and really fast way. It'd be like messages would be *warping* from Producer to Consumers.
+Since it's hard to find anyone who hasn't fallen under the charm of the unique **StarWars** motion pictures, I think it would be a nice treat to go over some of the most iconic episode dialogues (**Episode IV**), and use them to play a bit, and in the meantime, learn how Diffusion integrates MQTT as a Connector, in an efficient and really fast way. It'd be like messages would be *hyperdriving* from Producer to Consumers.
 
 # Requirements
 
@@ -10,7 +10,11 @@ Since it's hard to find anyone who hasn't fallen under the charm of the unique *
 
 2. The Dialogue Producer will be built as a nodejs command line application, so we'll need to have nodejs installed.
 3. In this github repository, we are including Episode IV dialogues. Dialogues have been downloaded from [Kaggle](https://www.kaggle.com/xvivancos/star-wars-movie-scripts?select=SW_EpisodeIV.txt)
+    1. "Note: Only use this example Kaggle StartWars datasets under this [license terms](https://opendatacommons.org/licenses/odbl/1-0/)."
 4. To connect to MQTT servers and Diffusion's MQTT Connector, we are using an MQTT client library: [Mqtt.js](https://github.com/mqttjs/MQTT.js)
+
+## Acknowledges
+    1. The starwars stars field and animation was based on this excellent tutorial by [DevCode](https://devcode.la/tutoriales/animacion-de-star-wars-con-css3/)
 
 # What we'll do
 
@@ -45,7 +49,7 @@ To enable protocols:
 1. Go to: {diffusion_install_dir}/etc/Connectors.xml.
 2. Look for the protocols tag `<protocols>`. It should be commented out, by default. 
 3. Uncomment the tag, and the protocos we want to enable. We'll need to enable 3 out of the 4 protocols, listed in there:
-    1. DIFUSSION_WEBSOCKET: This protocol will be used when we connect from the Consumer Web App, using Diffusion.
+    1. DIFFUSION_WEBSOCKET: This protocol will be used when we connect from the Consumer Web App, using Diffusion.
     2. MQTT_TCP: This protocol will be used when we connect from the Producer App, via MQTT
     3. MQTT_WEBSOCKET: This protocol will be used when we connect from the Consumer Web App, either by MQTT or Diffusion MQTT Connector.
 Example:
@@ -78,7 +82,7 @@ In the main script [dialogue-generator.js](https://github.com/diffusion-playgrou
     }        
     connectToServer = () => {
         // We get Server type from the command line, using this.getServerType()
-        if (this.getServerType() === 'difussion') {
+        if (this.getServerType() === 'diffusion') {
             // This url, points to our on-premise Diffusion broker
             this.client.connect('tcp://localhost:8086', {
                 protocolVersion: 5, // Diffusion supports version 5 of MQTT
@@ -131,14 +135,14 @@ The [main](https://github.com/diffusion-playground/starwars-mqtt/blob/master/jav
 
     getClient = () => {
         // From the queryString we get the params to determine which server to connect
-        const isDifussion = this.getQueryStringParams().has('difussion') || !this.getQueryStringParams().has('mosquitto');
-        if (isDifussion) {            
-            console.log('Starting Difussion Client...');
+        const isDiffusion = this.getQueryStringParams().has('diffusion') || !this.getQueryStringParams().has('mosquitto');
+        if (isDiffusion) {            
+            console.log('Starting Diffusion Client...');
             // If we asked to connect directly using Diffusion
             // ie: http://localhost:1234?diffusion            
             // We pass the callback functions to handle the events from the main script
             // We only care about onConnected and onMessageReceived
-            return new Difussion('StarWars', this.onConnected, this.onMessageReceived);
+            return new Diffusion('StarWars', this.onConnected, this.onMessageReceived);
         }
         // We reached here if we didn't ask to connect using Diffusion and want to connect using MQTT
         console.log('Starting MQTT Client...');
@@ -154,7 +158,7 @@ The connect function is in either the Diffusion or Mosquitto clients, depending 
 
 ### Diffusion Client
 
-If pure Diffusion connection was set, the [Diffusion's Client](https://github.com/diffusion-playground/starwars-mqtt/blob/master/javascript/consumer/js/mqtt-clients/Difussion.js) *connect* function will run:
+If pure Diffusion connection was set, the [Diffusion's Client](https://github.com/diffusion-playground/starwars-mqtt/blob/master/javascript/consumer/js/mqtt-clients/Diffusion.js) *connect* function will run:
 
 ```javascript
     connect = () => {

@@ -127,27 +127,26 @@ exports.animate = animate;
 var w = window.innerWidth;
 var h = window.innerHeight;
 var intro = document.getElementsByClassName("intro")[0];
-var historia = document.getElementsByClassName("historia")[0];
-var parrafos = document.getElementsByClassName("parrafos")[0];
-var sonido = document.getElementById("sonido");
+var history = document.getElementsByClassName("history")[0];
+var paragraphs = document.getElementsByClassName("paragraphs")[0];
 intro.style.fontSize = w / 30 + "px";
-historia.style.fontSize = w / 20 + "px";
-parrafos.style.height = h + "px";
+history.style.fontSize = w / 20 + "px";
+paragraphs.style.height = h + "px";
 window.addEventListener("resize", function () {
   w = canvas.width = window.innerWidth;
   h = canvas.height = window.innerHeight;
   intro.style.fontSize = w / 30 + "px";
-  historia.style.fontSize = w / 20 + "px";
-  parrafos.style.height = h + "px";
-  /*Fondo de estrellas*/
+  history.style.fontSize = w / 20 + "px";
+  paragraphs.style.height = h + "px";
+  /*Stars Background*/
 
-  inicio();
-  nevada();
+  start();
+  snow();
 });
 
 function animate() {
-  intro.className = 'intro texto_intro animacion_intro';
-  historia.className = 'historia texto_historia animacion_historia'; //sonido.play();
+  intro.className = 'intro text_intro animation_intro';
+  history.className = 'history text_history animation_history';
 }
 /*Fondo de estrellas*/
 
@@ -157,33 +156,33 @@ var ctx = canvas.getContext('2d');
 canvas.width = w;
 canvas.height = h;
 var num = 100;
-var tamaño = 2;
-var elementos = [];
-inicio();
-nevada();
+var size = 2;
+var elements = [];
+start();
+snow();
 
-function inicio() {
+function start() {
   for (var i = 0; i < num; i++) {
-    elementos[i] = {
+    elements[i] = {
       x: Math.ceil(Math.random() * w),
       y: Math.ceil(Math.random() * h),
-      tamaño: Math.random() * tamaño
+      size: Math.random() * size
     };
   }
 }
 
-function nevada() {
+function snow() {
   ctx.clearRect(0, 0, w, h);
 
   for (var i = 0; i < num; i++) {
-    var e = elementos[i];
+    var e = elements[i];
     ctx.beginPath();
     ctx.fillStyle = "#ff6";
-    ctx.arc(e.x, e.y, e.tamaño, 0, 2 * Math.PI);
+    ctx.arc(e.x, e.y, e.size, 0, 2 * Math.PI);
     ctx.fill();
   }
 }
-},{}],"../../../../../../../../../../home/smercado/.npm/_npx/188544/lib/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{}],"../../../../../../../../../../home/smercado/.npm/_npx/262792/lib/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -211,7 +210,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "33185" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "42397" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -387,5 +386,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../../../../../../../../home/smercado/.npm/_npx/188544/lib/node_modules/parcel/src/builtins/hmr-runtime.js","js/starwars.js"], null)
+},{}]},{},["../../../../../../../../../../home/smercado/.npm/_npx/262792/lib/node_modules/parcel/src/builtins/hmr-runtime.js","js/starwars.js"], null)
 //# sourceMappingURL=/starwars.2477f5ce.js.map

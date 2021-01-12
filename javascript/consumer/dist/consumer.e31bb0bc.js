@@ -17263,7 +17263,7 @@ var Mosquitto = /*#__PURE__*/function () {
 }();
 
 exports.default = Mosquitto;
-},{"mqtt":"node_modules/mqtt/lib/connect/index.js"}],"js/mqtt-clients/Difussion.js":[function(require,module,exports) {
+},{"mqtt":"node_modules/mqtt/lib/connect/index.js"}],"js/mqtt-clients/Diffusion.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17275,10 +17275,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var Difussion = function Difussion(topic, onConnectedCallback, onReceiveMessageCallback) {
+var Diffusion = function Diffusion(topic, onConnectedCallback, onReceiveMessageCallback) {
   var _this = this;
 
-  _classCallCheck(this, Difussion);
+  _classCallCheck(this, Diffusion);
 
   _defineProperty(this, "connect", function () {
     diffusion.connect({
@@ -17313,7 +17313,7 @@ var Difussion = function Difussion(topic, onConnectedCallback, onReceiveMessageC
   this.onReceiveMessageCallback = onReceiveMessageCallback;
 };
 
-exports.default = Difussion;
+exports.default = Diffusion;
 },{}],"js/starwars.js":[function(require,module,exports) {
 "use strict";
 
@@ -17324,27 +17324,26 @@ exports.animate = animate;
 var w = window.innerWidth;
 var h = window.innerHeight;
 var intro = document.getElementsByClassName("intro")[0];
-var historia = document.getElementsByClassName("historia")[0];
-var parrafos = document.getElementsByClassName("parrafos")[0];
-var sonido = document.getElementById("sonido");
+var history = document.getElementsByClassName("history")[0];
+var paragraphs = document.getElementsByClassName("paragraphs")[0];
 intro.style.fontSize = w / 30 + "px";
-historia.style.fontSize = w / 20 + "px";
-parrafos.style.height = h + "px";
+history.style.fontSize = w / 20 + "px";
+paragraphs.style.height = h + "px";
 window.addEventListener("resize", function () {
   w = canvas.width = window.innerWidth;
   h = canvas.height = window.innerHeight;
   intro.style.fontSize = w / 30 + "px";
-  historia.style.fontSize = w / 20 + "px";
-  parrafos.style.height = h + "px";
-  /*Fondo de estrellas*/
+  history.style.fontSize = w / 20 + "px";
+  paragraphs.style.height = h + "px";
+  /*Stars Background*/
 
-  inicio();
-  nevada();
+  start();
+  snow();
 });
 
 function animate() {
-  intro.className = 'intro texto_intro animacion_intro';
-  historia.className = 'historia texto_historia animacion_historia'; //sonido.play();
+  intro.className = 'intro text_intro animation_intro';
+  history.className = 'history text_history animation_history';
 }
 /*Fondo de estrellas*/
 
@@ -17354,29 +17353,29 @@ var ctx = canvas.getContext('2d');
 canvas.width = w;
 canvas.height = h;
 var num = 100;
-var tamaño = 2;
-var elementos = [];
-inicio();
-nevada();
+var size = 2;
+var elements = [];
+start();
+snow();
 
-function inicio() {
+function start() {
   for (var i = 0; i < num; i++) {
-    elementos[i] = {
+    elements[i] = {
       x: Math.ceil(Math.random() * w),
       y: Math.ceil(Math.random() * h),
-      tamaño: Math.random() * tamaño
+      size: Math.random() * size
     };
   }
 }
 
-function nevada() {
+function snow() {
   ctx.clearRect(0, 0, w, h);
 
   for (var i = 0; i < num; i++) {
-    var e = elementos[i];
+    var e = elements[i];
     ctx.beginPath();
     ctx.fillStyle = "#ff6";
-    ctx.arc(e.x, e.y, e.tamaño, 0, 2 * Math.PI);
+    ctx.arc(e.x, e.y, e.size, 0, 2 * Math.PI);
     ctx.fill();
   }
 }
@@ -17385,7 +17384,7 @@ function nevada() {
 
 var _Mosquitto = _interopRequireDefault(require("./js/mqtt-clients/Mosquitto"));
 
-var _Difussion = _interopRequireDefault(require("./js/mqtt-clients/Difussion"));
+var _Diffusion = _interopRequireDefault(require("./js/mqtt-clients/Diffusion"));
 
 var _starwars = require("./js/starwars");
 
@@ -17401,11 +17400,11 @@ var App = function App() {
   _classCallCheck(this, App);
 
   _defineProperty(this, "getClient", function () {
-    var isDifussion = _this.getQueryStringParams().has('difussion') || !_this.getQueryStringParams().has('mosquitto');
+    var isDiffusion = _this.getQueryStringParams().has('diffusion') || !_this.getQueryStringParams().has('mosquitto');
 
-    if (isDifussion) {
-      console.log('Starting Difussion Client...');
-      return new _Difussion.default('StarWars', _this.onConnected, _this.onMessageReceived);
+    if (isDiffusion) {
+      console.log('Starting Diffusion Client...');
+      return new _Diffusion.default('StarWars', _this.onConnected, _this.onMessageReceived);
     }
 
     console.log('Starting MQTT Client...');
@@ -17431,7 +17430,7 @@ var App = function App() {
       var newLine = document.createElement('p');
       newLine.innerHTML = "<span class=\"character\">".concat(message.character, ": </span>").concat(message.text);
       var newParagraph = document.createElement('div');
-      newParagraph.className = 'historia texto_historia animacion_historia';
+      newParagraph.className = 'history text_history animation_history';
       newParagraph.append(newLine);
 
       _this.scrollEl.append(newParagraph);
@@ -17444,7 +17443,7 @@ var App = function App() {
 };
 
 new App();
-},{"./js/mqtt-clients/Mosquitto":"js/mqtt-clients/Mosquitto.js","./js/mqtt-clients/Difussion":"js/mqtt-clients/Difussion.js","./js/starwars":"js/starwars.js"}],"../../../../../../../../../../home/smercado/.npm/_npx/188544/lib/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./js/mqtt-clients/Mosquitto":"js/mqtt-clients/Mosquitto.js","./js/mqtt-clients/Diffusion":"js/mqtt-clients/Diffusion.js","./js/starwars":"js/starwars.js"}],"../../../../../../../../../../home/smercado/.npm/_npx/262792/lib/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -17472,7 +17471,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "33185" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "42397" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -17648,5 +17647,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../../../../../../../../home/smercado/.npm/_npx/188544/lib/node_modules/parcel/src/builtins/hmr-runtime.js","index.js"], null)
+},{}]},{},["../../../../../../../../../../home/smercado/.npm/_npx/262792/lib/node_modules/parcel/src/builtins/hmr-runtime.js","index.js"], null)
 //# sourceMappingURL=/consumer.e31bb0bc.js.map

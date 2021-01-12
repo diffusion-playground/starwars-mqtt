@@ -1,5 +1,5 @@
 import Mosquitto from './js/mqtt-clients/Mosquitto';
-import Difussion from './js/mqtt-clients/Difussion';
+import Diffusion from './js/mqtt-clients/Diffusion';
 import { animate } from './js/starwars';
 
 class App {
@@ -10,10 +10,10 @@ class App {
     }
 
     getClient = () => {
-        const isDifussion = this.getQueryStringParams().has('difussion') || !this.getQueryStringParams().has('mosquitto');
-        if (isDifussion) {            
-            console.log('Starting Difussion Client...');
-            return new Difussion('StarWars', this.onConnected, this.onMessageReceived);
+        const isDiffusion = this.getQueryStringParams().has('diffusion') || !this.getQueryStringParams().has('mosquitto');
+        if (isDiffusion) {            
+            console.log('Starting Diffusion Client...');
+            return new Diffusion('StarWars', this.onConnected, this.onMessageReceived);
         }
         console.log('Starting MQTT Client...');
         const useDiffusionServer = this.getQueryStringParams().has('useDiffusionServer');
@@ -35,7 +35,7 @@ class App {
             let newLine = document.createElement('p');
             newLine.innerHTML = `<span class="character">${message.character}: </span>${message.text}`;
             let newParagraph = document.createElement('div');
-            newParagraph.className = 'historia texto_historia animacion_historia';
+            newParagraph.className = 'history text_history animation_history';
             newParagraph.append(newLine);
             this.scrollEl.append(newParagraph);
         }

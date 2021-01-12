@@ -1,4 +1,4 @@
-export default class Difussion {
+export default class Diffusion {
     constructor(topic, onConnectedCallback, onReceiveMessageCallback) {
         this.topic = topic;
         this.client = null;
