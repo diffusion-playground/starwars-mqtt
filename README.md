@@ -22,4 +22,4 @@ We are currently working on javascript implementation of the described use case,
 
 Start getting familiar with Diffusion by signing up to our free Cloud solution or download our on-premise version and run it in your local environment.
 
-# [All the code is available here!](https://github.com/diffusion-playground/starwars-mqtt/tree/master/javascript) 
+# All the code is available >>> [here](https://github.com/diffusion-playground/starwars-mqtt/tree/master/javascript) 
