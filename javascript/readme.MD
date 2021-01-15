@@ -288,7 +288,7 @@ Now that we have our Consumer listening, let's pour some magic and send the Epis
 
 Using the Metrics Collector, we can see how each type of connection compresses data:
 
-1. If we used the Mosquitto MQTT server, with a pure MQTT Producer / Client, we get 0% compression given, in this case Diffusion is out of the equation.
+1. When we use the Mosquitto MQTT server, with a pure MQTT Producer / Client, we get 0% compression, given, in this case, Diffusion is out of the equation.
 2. Otherwise, when we use Diffusion, we have two scenarios:
     1. MQTT Producer, using the MQTT connector, the compression goes up to ~70%
         ![](./images/compression_mqtt.png) 
