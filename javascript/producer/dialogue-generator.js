@@ -1,30 +1,45 @@
-import Mosquitto from './mqtt-clients/Mosquitto.js';
 import DialogueReader from './DialogueReader.js';
+import MosquittoMqtt from './mqtt-clients/MosquittoMqtt.js';
+import Diffusion from './mqtt-clients/Diffusion.js';
 
 class Main {    
     constructor() {
         console.log('Starting dialogue producer...');                
         this.dialogues = [];
         this.sendDialogInterval = null;
-        this.client = new Mosquitto('StarWars', this.onServerConnected);
-        this.connectToServer();
+        this.client = this.getClient();
+        this.client.connect();
     }    
+
+    getClient = () => {
+        const isDiffusion = this.getServerType() === 'diffusion' || !this.getServerType() === 'mosquitto';
+        if (isDiffusion) {
+            console.log('Starting Diffusion Client...');
+            return new Diffusion('StarWars', this.onServerConnected);
+        }
+        console.log('Starting MQTT Client...');
+        const useDiffusionServer = this.useDiffusion();
+        return new MosquittoMqtt('StarWars', useDiffusionServer, this.onServerConnected);
+    }
 
     getServerType = () => { 
         const args = process.argv.slice(2);
-        return args[0]? args[0] : 'difussion'; //By default we connect to difussion
+        return args[0]? args[0] : 'diffusion'; //By default we connect to difussion
     }
 
-    connectToServer = () => {
-        if (this.getServerType() === 'difussion') {
-            this.client.connect('tcp://localhost:8086', {
-                protocolVersion: 5,
-                username: 'admin',
-                password: 'password'
-            });
-            return;
+    useDiffusion = () => {
+        const args = process.argv.slice(2);
+        return args[1] && args[1] == 'useDiffusionServer' ? true : false; //By default we connect to difussion
+    }
+
+    isBytesTesting = () => {
+        const args = process.argv.slice(2);
+        for (const arg of args) {
+            if (arg === 'bytesTest') {
+                return true;
+            }
         }
-        this.client.connect('tcp://test.mosquitto.org');
+        return false;
     }
 
     /**
@@ -35,7 +50,8 @@ class Main {
         this.dialogueReader = new DialogueReader(
             {
                 onLineCallback: dialogue => this.storeDialogue(dialogue),
-                onCloseCallback: () => this.onFinishedReadingDialogueFile()
+                onCloseCallback: () => this.onFinishedReadingDialogueFile(),
+                bytesTest: this.isBytesTesting()
             }
         );
         this.dialogueReader.readFile('./dialogues/episode_iv');

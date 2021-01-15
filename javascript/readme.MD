@@ -295,6 +295,20 @@ Now that we have our Consumer listening, let's pour some magic and send the Epis
 2. If you want the Producer to connect to pure MQTT server: `node dialogue-generator.js mqtt`. Note that when the Producer is launched with this parameter it will not use Diffusion at all, but the mosquitto broker. So make sure, your Consumer is also connected to the mosquitto broker (step 6.iii, in the consumer steps.)
 3. If you want the producer to connect to Diffusion's MQTT Connector: `node dialogue-generator.js diffusion`
 
+## Some tests:
+
+Using the Metrics Collector, we can see how each type of connection compresses data:
+
+1. If we used the Mosquitto MQTT server, with a pure MQTT Producer / Client, we get 0% compression given, in this case Diffusion is out of the equation.
+2. Otherwise, when we use Diffusion, we have two scenarios:
+    1. MQTT Producer, using the MQTT connector, the compression goes up to ~70%
+        ![](./images/compression_mqtt.png) 
+    2. If we use Pure Diffusion (Diffusion Producer / Consumer), the the compression ratio goes up to ~78%
+        ![](./images/compression_ratio_diffusion.png) 
+
+These cases show how much including Diffusion can benefit our data flow.
+
+
 That's it! Log into your Diffusion's Console, if you are connected to it, to see all the magic happening. Also take a look at the Consumer's console. 
 
 Hope you enjoyed this tutorial!

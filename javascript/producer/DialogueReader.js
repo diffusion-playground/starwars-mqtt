@@ -11,6 +11,7 @@ export default class FileReader {
     constructor(config) {        
         this.onLineCallback = config.onLineCallback;
         this.onCloseCallback = config.onCloseCallback;
+        this.bytesTest = config.bytesTest || false;
     }
 
     /**
@@ -48,7 +49,10 @@ export default class FileReader {
      * This function converts the text line into a json object
      * @param {*} newData The text line read
      */
-    getDialogueJson = newData => {                
+    getDialogueJson = newData => {           
+        if (this.bytesTest) { // This returns a minimal JSON structure for bytes testing
+            return this.getBytesTestJSON();
+        }
         const lineArray = newData.split('" "');        
         if (lineArray[2]) {
             return {
@@ -60,5 +64,13 @@ export default class FileReader {
             character: '',
             text: ''
         };
+    }
+
+    getBytesTestJSON = () => {
+        return {
+            type: 'temperature sensor',
+            value: Math.random(),
+            timestamp: new Date()
+        }
     }
 }
