@@ -284,7 +284,7 @@ Now that we have our Consumer listening, let's pour some magic and send the Epis
 3. If you want the producer to connect to Diffusion's MQTT Connector: `node dialogue-generator.js mosquitto useDiffusionServer`
 4. Otherwise for a pure Diffusion experience: `node dialogue-generator.js diffusion`
 
-## Some tests:
+# Switch to Diffusion and Save up to 80% on data transmission
 
 Using the Metrics Collector, we can see how each type of connection compresses data:
 
