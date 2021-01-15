@@ -71,51 +71,39 @@ The Producer is a nodejs application that we'll run using the command line.
 ## Connecting to the server:
 
 Since it is a nodejs application we are going to connect using TCP.
-In the main script [dialogue-generator.js](https://github.com/diffusion-playground/starwars-mqtt/blob/master/javascript/Producer/dialogue-generator.js), we instantiate the client
+In the main script [dialogue-generator.js](https://github.com/diffusion-playground/starwars-mqtt/blob/master/javascript/producer/dialogue-generator.js), we instantiate the client
 
 ```javascript
     constructor() {
-        console.log('Starting dialogue Producer...');                     
-        // Let's create a client to the server. This could be an MQTT server or Diffusion
-        this.client = new Mosquitto('StarWars', this.onServerConnected);
-        this.connectToServer();
-    }        
-    connectToServer = () => {
-        // We get Server type from the command line, using this.getServerType()
-        if (this.getServerType() === 'diffusion') {
-            // This url, points to our on-premise Diffusion broker
-            this.client.connect('tcp://localhost:8086', {
-                protocolVersion: 5, // Diffusion supports version 5 of MQTT
-                // These are the on-premise server credentials.
-                username: 'admin', 
-                password: 'password'
-            });
-            return;
+        console.log('Starting dialogue producer...');                
+        this.dialogues = [];
+        this.sendDialogInterval = null;
+        // Let's get a Client, depending on the command line parameters we've set
+        this.client = this.getClient();
+        // And connect to it
+        this.client.connect();
+    }    
+
+    getClient = () => {
+        // We define if we must instantiate a Diffusion Client
+        const isDiffusion = this.getServerType() === 'diffusion' || !this.getServerType() === 'mosquitto';
+        if (isDiffusion) {
+            console.log('Starting Diffusion Client...');
+            // We return the Diffusion client, setting our connected callback
+            // ie: node dialogue-generator.js diffusion
+            return new Diffusion('StarWars', this.onServerConnected);
         }
-        // If we didn't request to connect to Diffusion server, 
-        // the client will try to connect to Mosquitto's server.
-        this.client.connect('tcp://test.mosquitto.org');
+        console.log('Starting MQTT Client...');
+        // If we reach this part of the code, it's because we want to instantiate an MQTT Client
+        // We can connect to diffusion's MQTT Connector or directly to an MQTT broker. 
+        // If we want to connect to Diffusion's MQTT Connector, we set the useDiffusionServer command parameter
+        // // ie: node dialogue-generator.js mosquitto OR // ie: node dialogue-generator.js mosquitto useDiffusionServer
+        const useDiffusionServer = this.useDiffusion();
+        return new MosquittoMqtt('StarWars', useDiffusionServer, this.onServerConnected);
     }
 ```    
 
-The connect function lies in the [Mosquitto.js](https://github.com/diffusion-playground/starwars-mqtt/blob/master/javascript/Producer/mqtt-clients/Mosquitto.js) client
-
-```javascript
-    connect = (serverUrl, params = null) => {        
-        // If we get Params, it means we are trying to connect to Diffusion,
-        // through its MQTT connector
-        if (params) {
-            this.client = mqtt.connect(serverUrl, params);    
-        // Otherwise, let's try to connect to Mosquitto MQTT broker
-        } else {
-            this.client = mqtt.connect(serverUrl);
-        }
-        // After connecting, we set callbacks to handle different events
-        this.client.on('error', this.onConnectError);
-        this.client.on('connect', this.onConnect);        
-        this.client.on('message', this.onReceivedDialogue);
-    }
-```
+Both Diffusion and Mosquitto Clients are described in the next section.
 
 # The Consumer
 
@@ -292,8 +280,9 @@ And this is what our Consumer Web App should look like:
 Now that we have our Consumer listening, let's pour some magic and send the Episode IV dialogues, using our Producer:
 
 1. `cd starwars-mqtt\javascript\producer`
-2. If you want the Producer to connect to pure MQTT server: `node dialogue-generator.js mqtt`. Note that when the Producer is launched with this parameter it will not use Diffusion at all, but the mosquitto broker. So make sure, your Consumer is also connected to the mosquitto broker (step 6.iii, in the consumer steps.)
-3. If you want the producer to connect to Diffusion's MQTT Connector: `node dialogue-generator.js diffusion`
+2. If you want the Producer to connect to pure MQTT server: `node dialogue-generator.js mosquitto`. Note that when the Producer is launched with this parameter it will not use Diffusion at all, but the mosquitto broker. So make sure, your Consumer is also connected to the mosquitto broker (step 6.iii, in the consumer steps.)
+3. If you want the producer to connect to Diffusion's MQTT Connector: `node dialogue-generator.js mosquitto useDiffusionServer`
+4. Otherwise for a pure Diffusion experience: `node dialogue-generator.js diffusion`
 
 ## Some tests:
 
@@ -307,7 +296,6 @@ Using the Metrics Collector, we can see how each type of connection compresses d
         ![](./images/compression_ratio_diffusion.png) 
 
 These cases show how much including Diffusion can benefit our data flow.
-
 
 That's it! Log into your Diffusion's Console, if you are connected to it, to see all the magic happening. Also take a look at the Consumer's console. 
 
